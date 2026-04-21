@@ -17,13 +17,6 @@ import VisionBoard from './pages/VisionBoard';
 import Coping from './pages/Coping';
 import Insights from './pages/Insights';
 
-function RequireAuth({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
-  if (loading) return null;
-  if (!user) return <Navigate to="/auth" replace />;
-  return <>{children}</>;
-}
-
 function RequireOnboarding({ children }: { children: React.ReactNode }) {
   const profile = useAppSelector((s) => s.userProfile.profile);
   if (!profile) return null;
@@ -79,19 +72,15 @@ export default function App() {
 
   if (loading) return null;
 
-  return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/auth" element={user ? <Navigate to="/" replace /> : <Auth />} />
-        <Route
-          path="/*"
-          element={
-            <RequireAuth>
-              <AuthenticatedApp uid={user!.uid} />
-            </RequireAuth>
-          }
-        />
-      </Routes>
-    </AnimatePresence>
-  );
+  if (!user) {
+    return (
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="*" element={<Auth />} />
+        </Routes>
+      </AnimatePresence>
+    );
+  }
+
+  return <AuthenticatedApp uid={user.uid} />;
 }
