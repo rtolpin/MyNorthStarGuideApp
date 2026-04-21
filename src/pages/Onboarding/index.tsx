@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppDispatch } from '../../store';
-import { completeOnboarding, initProfile } from '../../store/slices/userProfileSlice';
+import { completeOnboarding } from '../../store/slices/userProfileSlice';
 import { addHabit } from '../../store/slices/habitsSlice';
 import { addGoal } from '../../store/slices/goalsSlice';
 import NorthStarLogo from '../../components/common/NorthStarLogo';
@@ -62,7 +62,6 @@ export default function Onboarding() {
   }
 
   function handleComplete() {
-    dispatch(initProfile());
     const toneMap: Record<string, 'warm' | 'direct' | 'motivational'> = {
       'Warm and empathetic': 'warm',
       'Direct and action-focused': 'direct',

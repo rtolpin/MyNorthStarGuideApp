@@ -6,31 +6,37 @@ interface UserProfileState {
   profile: UserProfile | null;
 }
 
-const defaultProfile: UserProfile = {
-  id: 'user-1',
-  name: '',
-  onboardingCompleted: false,
-  personalityTraits: [],
-  baselineMood: 5,
-  preferences: {
-    theme: 'dark',
-    aiTone: 'warm',
-    notificationsEnabled: false,
-  },
-  createdAt: new Date().toISOString(),
-};
-
 const initialState: UserProfileState = {
   profile: null,
 };
+
+function defaultProfile(uid: string): UserProfile {
+  return {
+    id: uid,
+    name: '',
+    onboardingCompleted: false,
+    personalityTraits: [],
+    baselineMood: 5,
+    preferences: {
+      theme: 'dark',
+      aiTone: 'warm',
+      notificationsEnabled: false,
+    },
+    createdAt: new Date().toISOString(),
+  };
+}
 
 const userProfileSlice = createSlice({
   name: 'userProfile',
   initialState,
   reducers: {
-    initProfile: (state) => {
-      if (!state.profile) state.profile = { ...defaultProfile };
+    initProfile: (state, action: PayloadAction<string>) => {
+      if (!state.profile) state.profile = defaultProfile(action.payload);
     },
+    loadProfile: (state, action: PayloadAction<UserProfile>) => {
+      state.profile = action.payload;
+    },
+    resetProfile: () => initialState,
     setName: (state, action: PayloadAction<string>) => {
       if (state.profile) state.profile.name = action.payload;
     },
@@ -55,6 +61,8 @@ const userProfileSlice = createSlice({
   },
 });
 
-export const { initProfile, setName, completeOnboarding, updatePreferences, setAvatar } =
-  userProfileSlice.actions;
+export const {
+  initProfile, loadProfile, resetProfile,
+  setName, completeOnboarding, updatePreferences, setAvatar,
+} = userProfileSlice.actions;
 export default userProfileSlice.reducer;
