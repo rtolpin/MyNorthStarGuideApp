@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { useAppDispatch, useAppSelector } from './store';
@@ -32,8 +32,22 @@ function AuthenticatedApp({ uid }: { uid: string }) {
   const habits = useAppSelector((s) => s.habits.habits);
   const completions = useAppSelector((s) => s.habits.completions);
   const goals = useAppSelector((s) => s.goals.goals);
+  const [firestoreTimedOut, setFirestoreTimedOut] = useState(false);
 
   usePersistence(uid);
+
+  // Fallback: if Firestore takes too long or fails, init a fresh profile
+  useEffect(() => {
+    if (profile) return;
+    const t = setTimeout(() => setFirestoreTimedOut(true), 5000);
+    return () => clearTimeout(t);
+  }, [profile]);
+
+  useEffect(() => {
+    if (firestoreTimedOut && !profile) {
+      dispatch({ type: 'userProfile/initProfile', payload: uid });
+    }
+  }, [firestoreTimedOut, profile, uid, dispatch]);
 
   useEffect(() => {
     if (checkIns.length === 0) return;

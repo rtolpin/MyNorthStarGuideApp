@@ -74,7 +74,6 @@ export function usePersistence(uid: string) {
         initialized.current = true;
       } catch (e) {
         console.warn('Firestore load failed:', e);
-        dispatch(initProfile(uid));
         initialized.current = true;
       }
     }
