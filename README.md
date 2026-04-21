@@ -1,73 +1,97 @@
-# React + TypeScript + Vite
+# MyNorthStarGuide
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 🌐 Live App: [https://my-north-star-guide-app-c0311.web.app](https://my-north-star-guide-app-c0311.web.app)
 
-Currently, two official plugins are available:
+An AI-powered personal life intelligence platform that helps you track habits, set goals, and gain insights into your well-being — guided by your own North Star.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Module | Description |
+|---|---|
+| **Daily Check-In** | Log your mood, energy, and daily reflections |
+| **Habits Tracker** | Build and maintain habit streaks with visual progress |
+| **AI Predictions** | Future Self Engine powered by Claude AI — get personalized insights based on your patterns |
+| **Goals & Milestones** | Set meaningful goals and track progress toward them |
+| **Vision Board Studio** | Create a visual representation of your aspirations |
+| **Coping Strategy Center** | Access and personalize coping strategies for challenging moments |
+| **Insights & Analytics** | Visualize trends, correlations, and your North Star Score over time |
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Frontend:** React 19, TypeScript, Vite
+- **State Management:** Redux Toolkit
+- **Styling:** Tailwind CSS v3, Framer Motion
+- **Charts:** Recharts
+- **AI:** Anthropic Claude API (`claude-sonnet-4-20250514`)
+- **Storage:** IndexedDB (via `idb`) — all data stored locally in your browser
+- **Routing:** React Router v7
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Getting Started
+
+### Prerequisites
+
+- Node.js 20+
+- An [Anthropic API key](https://console.anthropic.com/settings/api-keys)
+
+### Installation
+
+```bash
+git clone https://github.com/rtolpin/MyNorthStarGuideApp.git
+cd MyNorthStarGuideApp
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Environment Variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Create a `.env` file in the root of the project:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+VITE_ANTHROPIC_API_KEY=sk-ant-your-key-here
+```
+
+### Run Locally
+
+```bash
+npm run dev
+```
+
+App runs at `http://localhost:5173`
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+---
+
+## Deployment
+
+This app is deployed to **Firebase Hosting** via GitHub Actions. Every push to `master` automatically builds and deploys to:
+
+**[https://my-north-star-guide-app-c0311.web.app](https://my-north-star-guide-app-c0311.web.app)**
+
+### Required GitHub Secrets
+
+| Secret | Description |
+|---|---|
+| `FIREBASE_TOKEN` | Firebase CI token (run `firebase login:ci` locally to generate) |
+| `VITE_ANTHROPIC_API_KEY` | Anthropic API key used during the build |
+
+---
+
+## Privacy
+
+All user data is stored **locally in your browser** using IndexedDB. Nothing is sent to any server except AI prompt requests to the Anthropic API.
+
+---
+
+## License
+
+MIT
