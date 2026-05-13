@@ -70,6 +70,24 @@ export default function Auth() {
             {mode === 'signin' ? 'Welcome back' : 'Create your account'}
           </h2>
 
+          {/* Guest / Demo */}
+          <button
+            onClick={continueAsGuest}
+            disabled={loading}
+            className="w-full bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-semibold py-3 px-4 rounded-xl mb-1 transition-colors disabled:opacity-50"
+          >
+            Continue as Guest — Demo Mode
+          </button>
+          <p className="text-center text-gray-500 text-xs mb-4">
+            No account needed. Data is not saved.
+          </p>
+
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex-1 h-px bg-white/10" />
+            <span className="text-gray-500 text-xs">or sign in</span>
+            <div className="flex-1 h-px bg-white/10" />
+          </div>
+
           {/* Google Sign-In */}
           <button
             onClick={handleGoogle}
@@ -119,7 +137,7 @@ export default function Auth() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-semibold py-3 rounded-xl transition-colors disabled:opacity-50"
+              className="w-full bg-white/10 hover:bg-white/15 text-white font-semibold py-3 rounded-xl transition-colors disabled:opacity-50"
             >
               {loading ? 'Please wait…' : mode === 'signin' ? 'Sign In' : 'Create Account'}
             </button>
@@ -134,23 +152,6 @@ export default function Auth() {
             >
               {mode === 'signin' ? 'Sign up' : 'Sign in'}
             </button>
-          </p>
-
-          <div className="flex items-center gap-3 mt-6">
-            <div className="flex-1 h-px bg-white/10" />
-            <span className="text-gray-500 text-xs">or</span>
-            <div className="flex-1 h-px bg-white/10" />
-          </div>
-
-          <button
-            onClick={continueAsGuest}
-            disabled={loading}
-            className="w-full mt-4 py-3 px-4 rounded-xl border border-white/10 text-gray-400 hover:text-white hover:border-white/25 text-sm font-medium transition-colors disabled:opacity-50"
-          >
-            Continue as Guest &mdash; Demo Mode
-          </button>
-          <p className="text-center text-gray-500 text-xs mt-2">
-            No account needed. Data is not saved.
           </p>
         </div>
       </motion.div>
