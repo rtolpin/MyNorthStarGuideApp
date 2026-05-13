@@ -7,7 +7,7 @@ import NorthStarLogo from '../../components/common/NorthStarLogo';
 type Mode = 'signin' | 'signup';
 
 export default function Auth() {
-  const { signIn, signUp, signInWithGoogle } = useAuth();
+  const { signIn, signUp, signInWithGoogle, continueAsGuest } = useAuth();
   const [mode, setMode] = useState<Mode>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -134,6 +134,23 @@ export default function Auth() {
             >
               {mode === 'signin' ? 'Sign up' : 'Sign in'}
             </button>
+          </p>
+
+          <div className="flex items-center gap-3 mt-6">
+            <div className="flex-1 h-px bg-white/10" />
+            <span className="text-gray-500 text-xs">or</span>
+            <div className="flex-1 h-px bg-white/10" />
+          </div>
+
+          <button
+            onClick={continueAsGuest}
+            disabled={loading}
+            className="w-full mt-4 py-3 px-4 rounded-xl border border-white/10 text-gray-400 hover:text-white hover:border-white/25 text-sm font-medium transition-colors disabled:opacity-50"
+          >
+            Continue as Guest &mdash; Demo Mode
+          </button>
+          <p className="text-center text-gray-500 text-xs mt-2">
+            No account needed. Data is not saved.
           </p>
         </div>
       </motion.div>

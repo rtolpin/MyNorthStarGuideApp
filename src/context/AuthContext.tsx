@@ -11,22 +11,26 @@ import { auth, googleProvider } from '../firebase';
 
 interface AuthContextType {
   user: User | null;
+  isGuest: boolean;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
+  continueAsGuest: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isGuest, setIsGuest] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (u) => {
       setUser(u);
+      if (u) setIsGuest(false);
       setLoading(false);
     });
     return unsubscribe;
@@ -45,11 +49,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
+    if (isGuest) {
+      setIsGuest(false);
+      return;
+    }
     await firebaseSignOut(auth);
   };
 
+  const continueAsGuest = () => {
+    setIsGuest(true);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, signUp, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, isGuest, loading, signIn, signUp, signInWithGoogle, signOut, continueAsGuest }}>
       {children}
     </AuthContext.Provider>
   );
